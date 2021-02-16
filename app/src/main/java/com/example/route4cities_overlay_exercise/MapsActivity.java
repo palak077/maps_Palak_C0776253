@@ -244,70 +244,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         System.out.println("Long click on the map");
 
-//        if (markers.size() == 0)
-//        {
-//            return;
-//        }
-//        double minDistance = Double.MAX_VALUE;
-//        Marker nearestMarker = null;
-//
-//        for (Marker marker : markers) {
-//            double currDistance = distance(marker.getPosition().latitude,
-//                    marker.getPosition().longitude,
-//                    latLng.latitude,
-//                    latLng.longitude);
-//            if (currDistance < minDistance) {
-//                minDistance = currDistance;
-//                nearestMarker = marker;
-//            }
-//        }
-//
-//        if (nearestMarker != null) {
-//            final Marker finalNearestMarker = nearestMarker;
-//            AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
-//            deleteDialog
-//                    .setTitle("remove marker ?")
-//                    .setMessage("do you want to remove the marker?")
-//
-//                    // Specifying a listener allows you to take an action before dismissing the dialog.
-//                    // The dialog is automatically dismissed when a dialog button is clicked.
-//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // Continue with delete operation
-//                            finalNearestMarker.remove();
-//                            markers.remove(finalNearestMarker);
-//
-//                            charactersABCD.remove(markerLabelMap.get(finalNearestMarker.getPosition()));
-//                            markerLabelMap.remove(finalNearestMarker);
-//
-//                            for (Polyline polyline : listOfPolyline) {
-//                                polyline.remove();
-//                            }
-//                            listOfPolyline.clear();
-//
-//                            if (shape != null) {
-//                                shape.remove();
-//                                shape = null;
-//                            }
-//
-//                            for (Marker currMarker : distanceMarkers) {
-//                                currMarker.remove();
-//                            }
-//                            distanceMarkers.clear();
-//
-//                        }
-//                    })
-//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//
-//                            finalNearestMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-//                            // finalNearestMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
-//
-//                        }
-//                    });
-//            AlertDialog dialog = deleteDialog.create();
-//            dialog.show();
-//        }
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2)
@@ -564,39 +500,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng isLatitudeAndLongitude = markerIcon.getPosition();
 
-//        try
-//        {
-//            List<Address> matches = geoCoder.getFromLocation(isLatitudeAndLongitude.latitude, isLatitudeAndLongitude.longitude, 1);
-//            addressOfMarker = (matches.isEmpty() ? null : matches.get(0));
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        ArrayList<String> addressString = new ArrayList<>();
-//
-//        if (addressOfMarker != null)
-//        {
-//            if (addressOfMarker.getThoroughfare() != null)
-//            {
-//                addressString.add(addressOfMarker.getThoroughfare());
-//            }
-//            if (addressOfMarker.getPostalCode() != null) {
-//                addressString.add(addressOfMarker.getPostalCode());
-//            }
-//            if (addressString.isEmpty()) {
-//                addressString.add("Unknown Location");
-//            }
-//            if (addressOfMarker.getLocality() != null) {
-//                addressString.add(addressOfMarker.getLocality());
-//            }
-//            if (addressOfMarker.getAdminArea() != null) {
-//                addressString.add(addressOfMarker.getAdminArea());
-//            }
-//        }
-//        System.out.println("ADDRESS OF MARKER  IS" + "  " +  addressOfMarker.getThoroughfare() + "  " + addressOfMarker.getLocality() + "  " + addressOfMarker.getCountryName() + "  " + addressOfMarker.getPostalCode() + "\n");
-//        Toast.makeText(MapsActivity.this,"ADDRESS OF MARKER IS:" + "  " +  addressOfMarker.getThoroughfare() + "  " +  addressOfMarker.getLocality() + "  " + addressOfMarker.getCountryName() + "  " +  addressOfMarker.getPostalCode() ,Toast.LENGTH_LONG).show();
-
         if(currentLocation != null)
         {
             Location location = new Location(LocationManager.GPS_PROVIDER);
@@ -607,6 +510,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double distance = currentLocation.distanceTo(location);
             markerIcon.setSnippet("Distance b/w marker and user :  " + distance );
         }
+
+        try
+        {
+            List<Address> matches = geoCoder.getFromLocation(isLatitudeAndLongitude.latitude, isLatitudeAndLongitude.longitude, 1);
+            addressOfMarker = (matches.isEmpty() ? null : matches.get(0));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        ArrayList<String> addressString = new ArrayList<>();
+
+        if (addressOfMarker != null)
+        {
+            if (addressOfMarker.getThoroughfare() != null)
+            {
+                addressString.add(addressOfMarker.getThoroughfare());
+            }
+            if (addressOfMarker.getPostalCode() != null) {
+                addressString.add(addressOfMarker.getPostalCode());
+            }
+            if (addressString.isEmpty()) {
+                addressString.add("Unknown Location");
+            }
+            if (addressOfMarker.getLocality() != null) {
+                addressString.add(addressOfMarker.getLocality());
+            }
+            if (addressOfMarker.getAdminArea() != null) {
+                addressString.add(addressOfMarker.getAdminArea());
+            }
+        }
+        System.out.println("ADDRESS OF MARKER  IS" + "  " +  addressOfMarker.getThoroughfare() + "  " + addressOfMarker.getLocality() + "  " + addressOfMarker.getCountryName() + "  " + addressOfMarker.getPostalCode() + "\n");
+        Toast.makeText(MapsActivity.this,"ADDRESS OF MARKER IS:" + "  " +  addressOfMarker.getThoroughfare() + "  " +  addressOfMarker.getLocality() + "  " + addressOfMarker.getCountryName() + "  " +  addressOfMarker.getPostalCode() ,Toast.LENGTH_LONG).show();
+
 
         return  false;
     }
